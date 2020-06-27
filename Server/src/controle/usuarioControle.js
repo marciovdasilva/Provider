@@ -1,4 +1,5 @@
 const Usuario = require('../entidade/usuario')
+
 module.exports = {
     async get(request, response){
         const usuarios = await Usuario.find()
@@ -6,28 +7,44 @@ module.exports = {
     },
     async gravar(request, response){
         const usuario = request.body
-        /*incluir validções*/
+        const {email} = usuario
+        const validaUsuario = await Usuario.findOne({email})
+
+        if(validaUsuario){
+            return response.status(400).json({
+                status: 'Erro',
+                mensagem: 'Usuario ou Senha ja cadastrados' 
+            })
+        }
+        
         const usuarioSalvo = await Usuario.create(usuario)
-        response.json(usuarioSalvo)
+        console.log(usuarioSalvo)
+        return response.json(usuarioSalvo)
     },
     async login (request, response){
         const {email, senha} = request.headers
         const validaUsuario = await Usuario.findOne({email})
+        
         if(!validaUsuario){
-            response.status(400).json({
+            return response.status(400).json({
                 status: 'Erro',
                 mensagem: 'Usuario inexistente' 
             })
         }
         if(senha != validaUsuario.senha){
-            response.status(400).json({
+            return response.status(400).json({
                 status: 'Erro',
                 mensagem: 'Senha invalida' 
             })
         }
-        response.json({
-            status: 'Ok'
-        })
 
+        let retorno = {
+            _id: validaUsuario._id,
+            nome: validaUsuario.nome, 
+            email: validaUsuario.email,
+            tipo:validaUsuario.tipo
+        }    
+
+        return response.json(retorno)
     }
 }   
