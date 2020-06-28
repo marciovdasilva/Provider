@@ -5,6 +5,19 @@ module.exports = {
         const usuarios = await Usuario.find()
         response.json(usuarios)
     },
+    async getUsuario(request, response){
+        const id = request.params.id
+        const usuario = await Usuario.findOne({_id:id})
+        let retorno = {
+            _id: usuario._id,
+            nome: usuario.nome, 
+            email: usuario.email,
+            tipo:usuario.tipo,
+            descricao: usuario.descricao
+        } 
+        return response.json(retorno)
+
+    },
     async gravar(request, response){
         const usuario = request.body
         const {email} = usuario

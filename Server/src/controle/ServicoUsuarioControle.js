@@ -21,25 +21,34 @@ module.exports = {
         
         const idUsuarioDaRequest = request.params.idUsuario
 
-        console.log('Aqui consultar', idUsuarioDaRequest)
+        try {
+            
+            const usuario = await Usuario.findById(idUsuarioDaRequest)
+            
+            const servicoUsuario = await ServicoUsuario.find({usuario:idUsuarioDaRequest})
 
-        const servicoUsuario = await ServicoUsuario.find({usuario:idUsuarioDaRequest})
+            const resp = {
+                descricao: usuario.descricao,
+                ocupacao: servicoUsuario.map(i => i.ocupacao)
+            }
+    
+            return response.json(resp)
 
-        console.log('Aqui consultar', idUsuarioDaRequest, servicoUsuario)
+        } catch (error) {
+            response.status(400).json({status:'se fodeste'})
+            
+        }
 
-        return response.json(servicoUsuario.map(i => i.ocupacao))
     },
     async gravar(request, response){
-        const {idUsuario, ocupacao} = request.body
+        const {idUsuario, ocupacao, descricao} = request.body
         if (!validaUsuario(idUsuario) ){
             return response.status(400).json({
                 status: "Erro",
                 mensagem: "Usuario não encontrado."
             })
         }
-
-        console.log('Aqui gravar', request.body)
-
+        await Usuario.findByIdAndUpdate(idUsuario,{descricao})
         await ServicoUsuario.deleteMany({usuario: idUsuario})
 
         for (const servico of ocupacao) {

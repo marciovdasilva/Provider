@@ -16,6 +16,7 @@ app.use(cors())
 
 app.get('/usuario', UsuarioControle.get) 
 app.post('/usuario', UsuarioControle.gravar)
+app.get('/usuario/:id', UsuarioControle.getUsuario)
 app.get('/login', UsuarioControle.login)
 
 app.get('/ocupacao', OcupacaoControle.get) 
@@ -25,6 +26,7 @@ app.get('/ocup', OcupacaoControle.ocup)
 app.get('/servicoUsuario/:idUsuario', ServicoUsuarioControle.get) 
 app.post('/servicoUsuario', ServicoUsuarioControle.gravar)
 app.get('/servicoUsuario', ServicoUsuarioControle.servicoUsuario)
+
 
 app.listen(3333)
 
