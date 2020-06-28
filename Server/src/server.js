@@ -3,6 +3,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const UsuarioControle = require('./controle/usuarioControle')
 const OcupacaoControle = require('./controle/ocupacaoControle')
+const ServicoUsuarioControle = require('./controle/ServicoUsuarioControle')
 const app = express()
 
 mongoose.connect('mongodb+srv://Provider:admin@provider-6lt3y.mongodb.net/<dbname>?retryWrites=true&w=majority',{/*configurar banco atlas*/
@@ -20,6 +21,10 @@ app.get('/login', UsuarioControle.login)
 app.get('/ocupacao', OcupacaoControle.get) 
 app.post('/ocupacao', OcupacaoControle.gravar)
 app.get('/ocup', OcupacaoControle.ocup)
+
+app.get('/servicoUsuario/:idUsuario', ServicoUsuarioControle.get) 
+app.post('/servicoUsuario', ServicoUsuarioControle.gravar)
+app.get('/servicoUsuario', ServicoUsuarioControle.servicoUsuario)
 
 app.listen(3333)
 
