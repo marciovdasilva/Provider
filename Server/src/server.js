@@ -6,8 +6,7 @@ const OcupacaoControle = require('./controle/ocupacaoControle')
 const ServicoUsuarioControle = require('./controle/ServicoUsuarioControle')
 const app = express()
 
-mongoose.connect('mongodb+srv://Provider:admin@provider-6lt3y.mongodb.net/<dbname>?retryWrites=true&w=majority',{/*configurar banco atlas*/
-    useNewUrlParser: true,
+mongoose.connect('mongodb+srv://Provider:admin@provider-6lt3y.mongodb.net/<dbname>?retryWrites=true&w=majority',{/*configurar banco atlas*/ useNewUrlParser: true,
     useUnifiedTopology: true
 })
 
