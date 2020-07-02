@@ -25,6 +25,8 @@ app.get('/ocup', OcupacaoControle.ocup)
 app.get('/servicoUsuario/:idUsuario', ServicoUsuarioControle.get) 
 app.post('/servicoUsuario', ServicoUsuarioControle.gravar)
 app.get('/servicoUsuario', ServicoUsuarioControle.servicoUsuario)
+app.get('/prestadores/:idOcupacao', ServicoUsuarioControle.getUsuarioPorOcupacao)
+
 
 
 app.listen(3333)

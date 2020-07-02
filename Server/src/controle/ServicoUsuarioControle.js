@@ -1,6 +1,7 @@
 const ServicoUsuario = require('../entidade/servicoUsuario')
 const Usuario = require('../entidade/usuario')
 const Ocupacao = require('../entidade/ocupacao')
+const mongoose = require('mongoose')
 
 const validaUsuario = async idUsuario =>{
 
@@ -72,6 +73,24 @@ module.exports = {
     },
     async servicoUsuario(request, response) {
         return response.json(await ServicoUsuario.find())
+    },
+
+    async getUsuarioPorOcupacao(request, response){
+        try {
+            const {idOcupacao} = request.params
+            const usuarioOcupacoes = await ServicoUsuario.find({ocupacao: idOcupacao})
+            const prestadores = await Usuario.find({
+                _id:{
+                    $in:usuarioOcupacoes.map(usuario =>mongoose.Types.ObjectId(usuario.usuario))
+                }
+            })
+            console.log('prestadores', prestadores)
+            return response.json(prestadores)
+            
+        } catch (error) {
+            return response.json([])
+        }
+
     }
 
     
